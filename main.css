@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+}
+
+form {
+  width: 600px;
+  padding: 3rem;
+}
