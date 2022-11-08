@@ -1,6 +1,6 @@
 <?php
 
-header("Content-Type:application/json");
+
 
 include "../db.php";
 
@@ -17,6 +17,8 @@ function response($response_code = 200, $response_desc = "Success.", $data = "")
     $json_response = json_encode($response);
     echo $json_response;
 }
+
+
 
 $method = $_SERVER["REQUEST_METHOD"];
 
@@ -46,7 +48,7 @@ function login($con)
         response(200, 'Success', 'Logged In');
         mysqli_close($con);
     } else {
-        response(404, "No Record Found");
+        response(404, "Invalid email or password");
     }
 }
 
