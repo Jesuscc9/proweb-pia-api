@@ -1,7 +1,4 @@
 <?php
-
-header("Content-Type:application/json");
-
 include "../db.php";
 
 function response($response_code = 200, $response_desc = "Success.", $data = "")
@@ -10,7 +7,7 @@ function response($response_code = 200, $response_desc = "Success.", $data = "")
     $response["message"] = $response_desc;
 
     if ($data) {
-        $response["data"] = $data;
+        $response["data"] = $data ?? [];
     }
 
     $json_response = json_encode($response);
@@ -44,7 +41,7 @@ function get_posts($con)
         response($response_code, $response_desc, $json);
         mysqli_close($con);
     } else {
-        response(200, "No Record Found");
+        response(200, "No Record Found", []);
     }
 }
 
