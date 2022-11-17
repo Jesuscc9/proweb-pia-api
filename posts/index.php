@@ -23,6 +23,9 @@ switch ($method) {
     case "POST":
         create_post($con);
         break;
+    case "DELETE":
+        delete_post($con, $_GET['id']);
+        break;
     default:
         echo "invalid method";
         break;
@@ -65,6 +68,17 @@ function create_post($con)
         response(200, "Success");
     } else {
         echo "Error: " . $sql . "<br>" . $con->error;
+    }
+}
+
+function delete_post($con, $id)
+{
+    $sql = "DELETE FROM posts WHERE id = '" . $id . "'";
+
+    if ($con->query($sql) === TRUE) {
+        response(200, 'Success');
+    } else {
+        response(500, $con->error);
     }
 }
 
