@@ -33,19 +33,43 @@ switch ($method) {
 
 function get_posts($con)
 {
-    $result = mysqli_query($con, "SELECT * FROM `posts`");
+    $result = mysqli_query($con, "SELECT * FROM posts") or die(mysqli_error($con));
 
-    $json = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $rows = array();
 
     if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_array($result);
-        $response_code = $row["response_code"];
-        $response_desc = $row["response_desc"];
-        response($response_code, $response_desc, $json);
+
+        // $json = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+
+
+
+            $author_data_result = mysqli_query($con, "SELECT username, avatar_url FROM users WHERE id = ' " . $row['created_by'] . "' LIMIT 1");
+
+            $json = mysqli_fetch_all($author_data_result, MYSQLI_ASSOC);
+
+
+            $row['author'] = $json[0];
+
+
+
+            array_push($rows, $row);
+
+                // $row = mysqli_fetch_array($result);
+                // $response_code = $row["response_code"];
+                // $response_desc = $row["response_desc"];
+                // response($response_code, $response_desc, $json);
+                // mysqli_close($con);
+         
+        }
+
+        response(200, 'Sucess', $rows);
         mysqli_close($con);
-    } else {
-        response(200, "No Record Found", []);
+
     }
+
+
 }
 
 function create_post($con)
